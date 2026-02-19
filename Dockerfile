@@ -1,8 +1,7 @@
-
 FROM maven:3.8.4-openjdk-17 AS build
 WORKDIR /app
 COPY pom.xml .
-RUN mvn dependency:go-offline -B
+RUN mvn dependency:go-offline -B -Dmaven.wagon.http.retryHandler.count=3
 COPY src ./src
 RUN mvn clean package -DskipTests -B
 
