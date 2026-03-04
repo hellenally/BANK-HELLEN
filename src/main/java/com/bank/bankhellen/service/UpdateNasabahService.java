@@ -11,15 +11,15 @@ public class UpdateNasabahService {
     @Autowired
     private NasabahRepository repository;
 
-    public Nasabah reactivate(Long id) throws Exception {
-        Nasabah n = repository.findById(id).orElseThrow(() -> new Exception("Nasabah tidak ditemukan!"));
+    public Nasabah reactivate(String nomorKtp) throws Exception {
+        Nasabah n = repository.findByNomorKtp(nomorKtp).orElseThrow(() -> new Exception("Nasabah tidak ditemukan!"));
         if (n.getStatus() == 1) throw new Exception("Nasabah sudah aktif!");
         n.setStatus(1);
         return repository.save(n);
     }
 
-    public Nasabah execute(Long id, UpdateNasabahRequest r) {
-        return repository.findById(id).map(n -> {
+    public Nasabah execute(String nomorKtp, UpdateNasabahRequest r) {
+        return repository.findByNomorKtp(nomorKtp).map(n -> {
             if (r.getNamaLengkap() != null && !r.getNamaLengkap().isEmpty()) n.setNamaLengkap(r.getNamaLengkap());
             if (r.getAlamat() != null && !r.getAlamat().isEmpty()) n.setAlamat(r.getAlamat());
             if (r.getNomorHandphone() != null && !r.getNomorHandphone().isEmpty()) n.setNomorHandphone(r.getNomorHandphone());
